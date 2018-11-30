@@ -1,0 +1,143 @@
+
+https://stackoverflow.com/questions/4112686/how-to-use-servlets-and-ajax
+
+https://stackoverflow.com/questions/30250196/sending-values-from-jsp-to-servlet-then-back-to-jsp
+
+
+
+
+
+
+Value offered by us: $ <%=(String)request.getAttribute("purchase")%>
+//Setting the attribute value to the calculated value
+		request.setAttribute("purchase", (Integer)tradeinval);
+
+
+
+
+<%//Calculating the trade in value based on the car that the user selected.
+	if (request.getParameter("car")!=null)
+	{
+		//Calculating the trade in value based on the rating of the car selected by user.
+		if (request.getParameter("car").equals("unacc"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.25))%>
+		<%if (request.getParameter("car").equals("acc"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.50))%>
+		<%if (request.getParameter("car").equals("good"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.75))%>
+		<%if (request.getParameter("car").equals("vgood"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.90))%>
+	<%}*%>
+
+
+
+
+
+
+<input type="submit" value="hmm" name = "cara"/><br>
+
+Value offered by us: $<%=(String)request.getAttribute("purchase")%>
+
+
+
+//Calculating the trade in value based on the rating of the car selected by user.
+		if (session.getAttribute("car").equals("unacc"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.25))%>
+		<%if (session.getAttribute("car").equals("acc"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.50))%>
+		<%if (session.getAttribute("car").equals("good"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.75))%>
+		<%if (session.getAttribute("car").equals("vgood"))%>
+			Value offered by us: $ <%=(int) (((Integer)request.getAttribute("purchase"))*(0.90))%>
+
+
+<%//Calculating the trade in value based on the car that the user selected.
+	if (session.getAttribute("car")!=null)
+	{
+		
+
+onClick="gettradeval(this.value, request, session)"
+	<%}
+	else%>
+		Value offered by us: $ <input type="text" name="carval" value="">
+
+
+
+
+ <!-- Creating a function to calculate the trade-in value -->
+    <%! 
+    
+    public void gettradeval(String a, HttpServletRequest request, HttpSession session)
+    {
+    	//Calculating the trade in value based on the rating of the car selected by user.
+    			if (a.equals("unacc"))
+    				session.setAttribute("carval", (((Integer)request.getAttribute("purchase"))*(0.25)));
+    			if (a.equals("acc"))
+    				session.setAttribute("carval", (((Integer)request.getAttribute("purchase"))*(0.50)));
+    			if (a.equals("good"))
+    				session.setAttribute("carval", (((Integer)request.getAttribute("purchase"))*(0.75)));
+    			if (a.equals("vgood"))
+    				session.setAttribute("carval", (((Integer)request.getAttribute("purchase"))*(0.90)));
+    }
+   
+    %>
+
+
+
+
+onClick=\"gettradeval(this.value, request, session)\"
+
+
+
+
+
+
+
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).on("click", "#car", function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+                $.get("CarServlet", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
+                    $("#carval").text(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+                });
+            });
+        </script>
+
+
+
+
+if (request.getParameter("car")!=null)
+		{
+			/*
+			if (request.getParameter("car").equals("unacc"))
+				purchase = (int) (purchase*(0.25));
+			else if (request.getParameter("car").equals("acc"))
+				purchase = (int) (purchase*(0.50));
+			else if (request.getParameter("car").equals("good"))
+				purchase = (int) (purchase*(0.70));
+			else if (request.getParameter("car").equals("vgood"))
+				purchase = (int) (purchase*(0.90));
+				
+			request.setAttribute("purchase", (Integer)purchase);
+			
+			//Finally, sending this modified request over to carResults.jsp
+			RequestDispatcher rd=this.getServletContext().getRequestDispatcher("carResults.jsp");
+			rd.forward(request,response);*/
+			
+			String text = "some text";
+			
+			if (request.getParameter("car").equals("unacc"))
+				purchase = (int) (purchase*(0.25));
+			else if (request.getParameter("car").equals("acc"))
+				purchase = (int) (purchase*(0.50));
+			else if (request.getParameter("car").equals("good"))
+				purchase = (int) (purchase*(0.70));
+			else if (request.getParameter("car").equals("vgood"))
+				purchase = (int) (purchase*(0.90));
+			
+			text = String.valueOf(purchase);
+
+		    response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+		    response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+		    response.getWriter().write(text);
+		}
